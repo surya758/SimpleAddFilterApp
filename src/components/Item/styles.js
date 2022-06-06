@@ -23,10 +23,16 @@ const styles = StyleSheet.create({
 		color: Colors.PRIMARY,
 		marginLeft: 10,
 	},
+	itemCategoryText: {
+		fontFamily: "SourceSansPro_600SemiBold",
+		color: Colors.GRAY_DARK,
+		marginLeft: 10,
+	},
 	trashIcon: {
 		position: "absolute",
 		right: 10,
 	},
+	info: {},
 });
 
 export default styles;

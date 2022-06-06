@@ -5,13 +5,16 @@ import CustomButtonComponent from "../../components/CustomButtonComponent";
 import CustomTextInput from "../../components/CustomTextInput";
 import { StatusBar } from "expo-status-bar";
 import data from "../../data/dataSet";
+import { signIn } from "../../redux/slices/authSlice";
 import styles from "./styles";
+import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen = () => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const navigation = useNavigation();
+	const dispatch = useDispatch();
 
 	// show alert
 	const showAlert = (errTitle, errMsg) => {
@@ -38,10 +41,16 @@ const LoginScreen = () => {
 		if (username === "" || password === "") {
 			return showAlert("Enter credentials", "Your username or password is empty");
 		}
-		const userData = data.users.find((user) => {
-			return user.username === username && user.password === password;
-		});
-		userData ? navigation.navigate("Home") : handleLoginFailure();
+		const user = {
+			username: username,
+			password: password,
+		};
+
+		dispatch(signIn({ user }));
+		// const userData = data.users.find((user) => {
+		// 	return user.username === username && user.password === password;
+		// });
+		// userData ? navigation.navigate("Home") : handleLoginFailure();
 	};
 
 	return (

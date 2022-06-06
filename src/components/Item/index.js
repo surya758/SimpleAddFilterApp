@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import styles from "./styles";
 
-const Item = ({ item, onPress }) => {
+const Item = ({ item, onPress, screen }) => {
 	return (
 		<View style={styles.container}>
 			<Image
@@ -13,13 +13,18 @@ const Item = ({ item, onPress }) => {
 				}}
 				style={styles.itemImage}
 			/>
-			<Text style={styles.itemTitleText}>{item.name.toUpperCase()}</Text>
+			<View>
+				<Text style={styles.itemTitleText}>{item.name.toUpperCase()}</Text>
+				{screen === "itemList" ? (
+					<Text style={styles.itemCategoryText}>{item.category.slice(0, -1).toUpperCase()}</Text>
+				) : null}
+			</View>
 			<Ionicons
-				name='trash'
+				name={screen === "fav" ? "trash" : "add"}
 				size={24}
 				color='black'
 				style={styles.trashIcon}
-				onPress={() => onPress(item.id)}
+				onPress={() => onPress(item)}
 			/>
 		</View>
 	);

@@ -37,34 +37,6 @@ const styles = StyleSheet.create({
 		fontFamily: "SourceSansPro_600SemiBold",
 	},
 	categoryView: { flexDirection: "row", marginTop: 8 },
-	writeItemView: {
-		marginTop: 30,
-		position: "absolute",
-		bottom: 40,
-		width: "100%",
-		flexDirection: "row",
-		justifyContent: "space-around",
-		alignItems: "center",
-	},
-	picker: {
-		backgroundColor: Colors.WHITE,
-		paddingVertical: 14,
-		width: windowWidth * 0.6,
-		borderRadius: 20,
-		paddingLeft: 6,
-		borderWidth: 1,
-		borderColor: Colors.PRIMARY,
-	},
-	addView: {
-		height: 60,
-		width: 60,
-		borderRadius: 60,
-		backgroundColor: Colors.WHITE,
-		justifyContent: "center",
-		alignItems: "center",
-		borderWidth: 1,
-		borderColor: Colors.PRIMARY,
-	},
 });
 
 export default styles;
