@@ -4,8 +4,8 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	SafeAreaView,
+	ScrollView,
 	Text,
-	TextInput,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	View,
@@ -13,15 +13,15 @@ import {
 import React, { useState } from "react";
 
 import CategoryBox from "../../components/CategoryBox";
-import { Colors } from "../../styles";
 import { Ionicons } from "@expo/vector-icons";
 import Item from "../../components/Item";
+import { Picker } from "@react-native-picker/picker";
 import { StatusBar } from "expo-status-bar";
 import data from "../../data/dataSet";
 import styles from "./styles";
 
 const HomeScreen = () => {
-	const [enteredItem, setEnteredItem] = useState("");
+	const [selectedItem, setSelectedItem] = useState("");
 	const [favList, setFavList] = useState([]);
 	const [filteredItemList, setFilteredItemList] = useState([]);
 	const [showAll, setShowAll] = useState(true);
@@ -36,19 +36,10 @@ const HomeScreen = () => {
 				text: "OK",
 				onPress: () => {
 					// resetting entered item
-					setEnteredItem("");
+					setSelectedItem("");
 				},
 			},
 		]);
-	};
-
-	// on text input
-	const onInputChange = (letter) => {
-		// regex that only accepts alphabets
-		const re = /^[A-Za-z]+$/;
-		if (letter === "" || re.test(letter)) {
-			setEnteredItem(letter);
-		}
 	};
 
 	// func that add item to fav list if it the entered item is available in dataset
@@ -69,7 +60,7 @@ const HomeScreen = () => {
 	const addItemToList = () => {
 		Keyboard.dismiss();
 		const item = data.images.find((item) => {
-			return item.name === enteredItem;
+			return item.name === selectedItem;
 		});
 		item ? itemAvailableHandler(item) : itemUnavilableHandler();
 	};
@@ -80,10 +71,10 @@ const HomeScreen = () => {
 			return item.id !== id;
 		});
 		setFavList(newFavList);
-		const newFavListForFilteredList = filteredItemList.filter((item) => {
+		const newFilteredList = filteredItemList.filter((item) => {
 			return item.id !== id;
 		});
-		setFilteredItemList(newFavListForFilteredList);
+		setFilteredItemList(newFilteredList);
 		showAlert("Deleted!", "Item has been removed successfully");
 	};
 
@@ -115,7 +106,7 @@ const HomeScreen = () => {
 						</TouchableOpacity>
 					</View>
 
-					<View style={styles.itemView}>
+					<ScrollView style={styles.itemView}>
 						{/*This is where all the available items will reside */}
 
 						{showAll
@@ -125,22 +116,29 @@ const HomeScreen = () => {
 							: filteredItemList.map((item) => {
 									return <Item key={item.id} item={item} onPress={deleteItemFromList} />;
 							  })}
-					</View>
+					</ScrollView>
 				</View>
+				{/* 
 
+
+				
 				{/* Write an item name */}
 				<KeyboardAvoidingView
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					style={styles.writeItemView}
 				>
-					<TextInput
-						style={styles.input}
-						placeholder={"Write an item name"}
-						value={enteredItem}
-						onChangeText={onInputChange}
-						placeholderTextColor={Colors.GRAY_DARK}
-						autoCapitalize='none'
-					/>
+					<Picker
+						selectedValue={selectedItem}
+						onValueChange={setSelectedItem}
+						mode='dropdown' // Android only
+						style={styles.picker}
+					>
+						<Picker.Item label='Please select your item' value='Unknown' />
+						{data.images.map((item) => {
+							return <Picker.Item label={item.name} value={item.name} key={item.name} />;
+						})}
+					</Picker>
+
 					<TouchableOpacity onPress={addItemToList}>
 						<View style={styles.addView}>
 							<Ionicons name='add' size={28} color='black' />

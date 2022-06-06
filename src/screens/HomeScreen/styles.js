@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-around",
 		alignItems: "center",
 	},
-	input: {
+	picker: {
 		backgroundColor: Colors.WHITE,
 		paddingVertical: 14,
 		width: windowWidth * 0.6,
